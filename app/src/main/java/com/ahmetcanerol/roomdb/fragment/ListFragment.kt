@@ -54,7 +54,6 @@ class ListFragment : Fragment() {
 
         })
 
-
         ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
             ): Boolean {
@@ -62,6 +61,7 @@ class ListFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
             }
 
         }).attachToRecyclerView(recyclerView)
@@ -74,6 +74,8 @@ class ListFragment : Fragment() {
         recyclerViewAdapter.onItemClick={
             val bundle = bundleOf(
                 "id" to it.id,
+                "name" to it.username,
+                "year" to it.year
             )
             findNavController().navigate(R.id.action_listFragment_to_addFragment,bundle)
         }

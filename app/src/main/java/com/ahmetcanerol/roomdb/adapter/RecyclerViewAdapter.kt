@@ -51,7 +51,6 @@ class RecyclerViewAdapter() :RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder
         holder.userN.setOnClickListener {
             onItemClick?.invoke(currentUser)
         }
-
         holder.delete.setOnClickListener {
             onItemClick?.invoke(currentUser)
         }
@@ -64,4 +63,5 @@ class RecyclerViewAdapter() :RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder
         this.userList = userList
         notifyDataSetChanged()
     }
+
 }

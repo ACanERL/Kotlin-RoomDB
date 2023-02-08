@@ -2,6 +2,7 @@ package com.ahmetcanerol.roomdb.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ahmetcanerol.roomdb.R
@@ -35,8 +37,15 @@ class AddFragment : Fragment() {
         val editAge = view.findViewById<EditText>(R.id.userage)
         val insertButton = view.findViewById<Button>(R.id.eklebtn)
         val guncelle=view.findViewById<Button>(R.id.update)
-      //  val userdata=view.findViewById<TextView>(R.id.userdata)
-          var id=arguments?.getInt("id")
+        val sil=view.findViewById<Button>(R.id.deletebtn)
+        var id=arguments?.getInt("id")
+        var username=arguments?.getString("name")
+        var year=arguments?.getInt("year")
+
+        var txt=Editable.Factory.getInstance().newEditable(username)
+        editName.text=txt
+        var txt1=Editable.Factory.getInstance().newEditable(year.toString())
+        editAge.text=txt1
 
         insertButton.setOnClickListener {
             val user = User(0, editName.text.toString(), editAge.text.toString().toInt())
@@ -49,8 +58,18 @@ class AddFragment : Fragment() {
             val user = id?.let { it1 -> User(it1,editName.text.toString(), editAge.text.toString().toInt()) }
             if (user != null) {
                 userViewModel.updateUser(user)
+                findNavController().navigate(R.id.action_addFragment_to_listFragment)
             }
         }
+
+        sil.setOnClickListener {
+            if (id != null) {
+                userViewModel.deleteId(id)
+                findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            }
+        }
+
+
 
 
         return view
