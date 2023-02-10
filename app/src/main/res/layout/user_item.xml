@@ -20,10 +20,10 @@
 
     <TextView
         android:id="@+id/userAgetxt"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="54dp"
+        android:layout_marginEnd="34dp"
         android:layout_marginBottom="15dp"
         android:text="18"
         android:textSize="20sp"
@@ -31,13 +31,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

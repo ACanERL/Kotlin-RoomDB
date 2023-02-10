@@ -38,36 +38,56 @@ class AddFragment : Fragment() {
         val insertButton = view.findViewById<Button>(R.id.eklebtn)
         val guncelle=view.findViewById<Button>(R.id.update)
         val sil=view.findViewById<Button>(R.id.deletebtn)
-        var id=arguments?.getInt("id")
-        var username=arguments?.getString("name")
-        var year=arguments?.getInt("year")
 
-        var txt=Editable.Factory.getInstance().newEditable(username)
-        editName.text=txt
-        var txt1=Editable.Factory.getInstance().newEditable(year.toString())
-        editAge.text=txt1
+        val id:Int?=arguments?.getInt("id")
+        val username:String?=arguments?.getString("name")
+        val year:Int?=arguments?.getInt("year")
 
-        insertButton.setOnClickListener {
-            val user = User(0, editName.text.toString(), editAge.text.toString().toInt())
-            userViewModel.addUser(user)
-            Toast.makeText(requireContext(), "Kullanıcı Eklendi!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+        if(username==null || year==null || id==null){
+            println("boş veri")
+        }
+        else{
+            println("boş değil")
         }
 
-        guncelle.setOnClickListener {
-            val user = id?.let { it1 -> User(it1,editName.text.toString(), editAge.text.toString().toInt()) }
-            if (user != null) {
-                userViewModel.updateUser(user)
+        username?.let {
+            val txt: Editable? = Editable.Factory.getInstance().newEditable(username)
+            editName.text = txt
+        }
+        year?.let {
+            val txt1: Editable? = Editable.Factory.getInstance().newEditable(year.toString())
+            editAge.text = txt1
+        }
+
+
+
+            insertButton.setOnClickListener {
+                val user = User(0, editName.text.toString(), editAge.text.toString().toInt())
+                userViewModel.addUser(user)
+                Toast.makeText(requireContext(), "Kullanıcı Eklendi!", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_addFragment_to_listFragment)
             }
-        }
 
-        sil.setOnClickListener {
-            if (id != null) {
-                userViewModel.deleteId(id)
-                findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            guncelle.setOnClickListener {
+                val user = id?.let { it1 ->
+                    User(
+                        it1,
+                        editName.text.toString(),
+                        editAge.text.toString().toInt()
+                    )
+                }
+                if (user != null) {
+                    userViewModel.updateUser(user)
+                    findNavController().navigate(R.id.action_addFragment_to_listFragment)
+                }
             }
-        }
+
+            sil.setOnClickListener {
+                if (id != null) {
+                    userViewModel.deleteId(id)
+                    findNavController().navigate(R.id.action_addFragment_to_listFragment)
+                }
+            }
 
 
 

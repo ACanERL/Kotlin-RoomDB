@@ -21,7 +21,7 @@ class RecyclerViewAdapter() :RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder
     class ViewHolder(view:View):RecyclerView.ViewHolder(view){
       val userN=view.findViewById<TextView>(R.id.userNametxt)
         val userAge=view.findViewById<TextView>(R.id.userAgetxt)
-        val delete=view.findViewById<ImageView>(R.id.delete)
+
 
         fun bind(user:User){
             userN.text = user.username
@@ -49,9 +49,6 @@ class RecyclerViewAdapter() :RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder
        }*/
 
         holder.userN.setOnClickListener {
-            onItemClick?.invoke(currentUser)
-        }
-        holder.delete.setOnClickListener {
             onItemClick?.invoke(currentUser)
         }
     }

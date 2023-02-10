@@ -48,7 +48,7 @@ class ListFragment : Fragment() {
 
         userViewModel.readAllData.observe(viewLifecycleOwner, Observer { userlist->
             recyclerViewAdapter.setData(userlist)
-            if (userlist.size == 0) {
+            if (userlist.isEmpty()) {
                 Toast.makeText(context, "Liste Boş", Toast.LENGTH_SHORT).show()
             }
 
