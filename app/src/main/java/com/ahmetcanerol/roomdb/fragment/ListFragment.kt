@@ -19,8 +19,6 @@ import com.ahmetcanerol.roomdb.viewmodel.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
-
-
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private lateinit var userViewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,23 +26,42 @@ class ListFragment : Fragment() {
 
     }
 
+    val simpleCallback=object :ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val layoutposition=viewHolder.layoutPosition
+            if(recyclerViewAdapter!=null){
+                val select=recyclerViewAdapter!!.userList[layoutposition]
+                userViewModel.deleteUser(select)
+                recyclerViewAdapter!!.notifyDataSetChanged()
+            }
+        }
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
-
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         val fabtn=view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fabtn.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
         val recyclerView = view.findViewById<RecyclerView>(R.id.listeRecyclerview)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView)
         recyclerViewAdapter = RecyclerViewAdapter()
         recyclerView.adapter = recyclerViewAdapter
-
-
 
         userViewModel.readAllData.observe(viewLifecycleOwner, Observer { userlist->
             recyclerViewAdapter.setData(userlist)
@@ -54,17 +71,6 @@ class ListFragment : Fragment() {
 
         })
 
-        ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
-            ): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-            }
-
-        }).attachToRecyclerView(recyclerView)
 
         recyclerViewAdapter.onItemClick={
             userViewModel.deleteId(it.id)
@@ -83,8 +89,5 @@ class ListFragment : Fragment() {
 
         return view
     }
-
-
-
 
 }
